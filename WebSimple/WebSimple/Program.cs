@@ -62,6 +62,11 @@ app.Map("/security", appBuilder=>{
 
 app.UseMiddleware<SecondMiddleware>();
 
+app.Map("/servertime", ab=>{
+    ab.Run(async context => await context.Response.WriteAsync($"<h1>Server time: {DateTime.Now.ToShortTimeString()}</h1>"));
+
+});
+
 app.UseWhen( context => context.Request.Path.Value.Contains("time"),
     appBuilder => {
         appBuilder.Use(async (context, next) => {
