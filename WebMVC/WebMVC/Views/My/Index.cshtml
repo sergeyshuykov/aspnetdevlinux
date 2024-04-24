@@ -1,1 +1,19 @@
+@{ 
+    Layout = null;
+}
 <h1>@Model.A  /  @Model.B = @Model.Result</h1>
+<h2>@(Model.A  /  Model.B) </h2>
+@if (Model.Result >= 10) 
+{
+    <h3>More thean 10</h3>
+}
+
+<partial name="_Message"/>
+
+@section Scripts
+{
+<script>
+    console.log('My/Index view custom script');
+</script>
+
+}

@@ -18,6 +18,7 @@ public class MyController : Controller
     [Route("my/{a:int}/{b:int}")]
     public IActionResult Index(int a, int b)
     {
+        
         try 
         {
             //int a = this.RouteData["a"];

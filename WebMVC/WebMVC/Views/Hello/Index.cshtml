@@ -1,5 +1,21 @@
 @model HelloVM
 
+<style>
+    input:invalid {
+        color : red;
+    }
+</style>
+
+<script>
+    function verify(t)
+    {
+        if (t.value.length >=3)
+            t.setCustomValidity("");
+        else
+            t.setCustomValidity("Invalid name");
+    }
+</script>
+
 <h1>@Model.Hello</h1>
 @if (@ViewBag.MyErrorMessage != null)
 {
@@ -8,7 +24,9 @@
 }
 <form asp-action="SayHello" method="POST">
     <label asp-for="UserName"></label>
-    <input asp-for="UserName">
+    <input asp-for="UserName" required pattern="(.+)" onchange="verify(this)">
     @Html.ValidationMessageFor(model => model.UserName)
     <input type="submit" value="OK">
 </form>
+
+<partial name="_Message"/>

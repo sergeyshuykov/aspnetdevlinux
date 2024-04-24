@@ -47,6 +47,17 @@ app.MapPost("api/person", async (HttpContext context, Person p) =>
     Person.All.Add(p);
     await context.Response.WriteAsJsonAsync(p);
 });
+app.MapPut("api/person/{id:int}", async(HttpContext context, Person p, int id) =>{
+    Person pOld = Person.All.Where(p=>p.Id == id).SingleOrDefault();
+    if (pOld != null)
+    {
+        pOld.Name = p.Name;
+        pOld.Age = p.Age;
+        await context.Response.WriteAsJsonAsync(pOld);
+    }
+    else
+        context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+});
 
 
 app.Run();

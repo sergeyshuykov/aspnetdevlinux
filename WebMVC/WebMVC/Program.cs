@@ -1,11 +1,19 @@
 using Microsoft.Extensions.FileProviders;
+using WebMVC;
+using WebMVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSingleton<IHello, HelloImpl>();
+//builder.Services.AddKeyedSingleton<IHello, HelloImpl>("one");
+
 var app = builder.Build();
+
+// not recommnded
+//app.Services.GetService(IHello)
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

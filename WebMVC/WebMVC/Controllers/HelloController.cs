@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using WebMVC.Models;
+using WebMVC.Services;
 
 namespace WebMVC.Controllers;
 
 public class HelloController: Controller
 {
+    private IHello hello;
+    public HelloController(/*[FromKeyedServices("one")]*/ IHello hello) => this.hello = hello;
+
     [HttpGet]
     public IActionResult Index()
     {
@@ -44,4 +48,23 @@ public class HelloController: Controller
     {
         return View("Index", m);
     }
+
+    [HttpGet]
+    public IActionResult IndexSrv()
+    {
+        // this.HttpContext.RequestServices.GetService
+        
+        var m = new HelloVMSrv();
+        m.Hello = hello.GetHelloString(m.UserName);
+        return this.View(m);
+    }
+    [HttpPost]
+    public IActionResult SayHelloSrv(HelloVMSrv m) // binding
+    {
+        if (!this.ModelState.IsValid)
+            ViewBag.MyErrorMessage = "Некорректные данные";
+        m.Hello = hello.GetHelloString(m.UserName);
+        return View("IndexSrv", m);
+    }
+
 }
