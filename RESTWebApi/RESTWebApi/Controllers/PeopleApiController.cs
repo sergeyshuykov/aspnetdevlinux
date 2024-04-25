@@ -25,4 +25,16 @@ public class PeopleApiController : ControllerBase
         return p;
     }
 
+    // POST : api/people
+    [HttpPost]
+    public ActionResult<Person> AddPerson(Person person)
+    {
+        if(person == null)
+            return this.Problem("Entity Person is null");
+
+        person.Id = dao.People.Select(p => p.Id).Max()+1;
+        dao.People.Add(person);
+        return CreatedAtAction("GetPerson", new {id = person.Id}, person);
+    }
+
 }

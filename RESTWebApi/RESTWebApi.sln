@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RESTWebApi", "RESTWebApi\RESTWebApi.csproj", "{C99F1EC3-5FA2-402D-8032-53D1E1CB6573}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestClient", "RestClient\RestClient.csproj", "{55DF2730-5DE5-4E8F-ABD8-EF3C5D9869A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RESTWebApiSwagger", "RESTWebApiSwagger\RESTWebApiSwagger.csproj", "{C29D1F89-0C66-4AB0-8065-6B6DB82F86FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{C99F1EC3-5FA2-402D-8032-53D1E1CB6573}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C99F1EC3-5FA2-402D-8032-53D1E1CB6573}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C99F1EC3-5FA2-402D-8032-53D1E1CB6573}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55DF2730-5DE5-4E8F-ABD8-EF3C5D9869A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55DF2730-5DE5-4E8F-ABD8-EF3C5D9869A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55DF2730-5DE5-4E8F-ABD8-EF3C5D9869A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55DF2730-5DE5-4E8F-ABD8-EF3C5D9869A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C29D1F89-0C66-4AB0-8065-6B6DB82F86FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C29D1F89-0C66-4AB0-8065-6B6DB82F86FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C29D1F89-0C66-4AB0-8065-6B6DB82F86FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C29D1F89-0C66-4AB0-8065-6B6DB82F86FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
