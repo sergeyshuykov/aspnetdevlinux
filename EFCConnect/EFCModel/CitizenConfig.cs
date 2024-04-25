@@ -10,7 +10,7 @@ public class CitizenConfig : IEntityTypeConfiguration<Citizen>
         
         builder
             .Property<string>(c => c.Passport)
-            .HasComputedColumnSql("'PassportSerial' + ' ' + CAST('PassportNumber' AS text)");
+            .HasComputedColumnSql("'PassportSerial' || ' ' || CAST('PassportNumber' AS text)", stored: true);
 
         builder
             .Property<string>(c => c.PassportSerial)

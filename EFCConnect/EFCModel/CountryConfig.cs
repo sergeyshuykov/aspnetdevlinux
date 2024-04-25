@@ -8,7 +8,7 @@ public class CountryConfig : IEntityTypeConfiguration<Country>
         builder.HasIndex(c => c.Name).IsUnique();
         builder
             .Property(c => c.Id)
-            .HasDefaultValueSql<Guid>("getguid()")
+            .HasDefaultValueSql<Guid>("gen_random_uuid()")
             .ValueGeneratedOnAdd();
     }
 }

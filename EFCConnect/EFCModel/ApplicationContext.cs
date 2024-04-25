@@ -1,6 +1,10 @@
+using System.Data;
+using System.Data.Common;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Npgsql;
+using NpgsqlTypes;
 
 public class ApplicationContext : DbContext
 {
@@ -22,9 +26,37 @@ public class ApplicationContext : DbContext
 
     }
 
+    public int CountPersonOlderThen(int minAge = 18)
+    {
+       
+        using(NpgsqlConnection conn = this.Database.GetDbConnection() as NpgsqlConnection)
+        {
+        conn.Open();
+        IDbCommand command = conn.CreateCommand();
+        command.CommandText = "\"CountPersonOlderThen\"";
+        command.CommandType = CommandType.StoredProcedure;
+        command.Parameters.Add(new NpgsqlParameter("@minage", minAge));
+        
+        NpgsqlParameter outParm = new NpgsqlParameter("@res", NpgsqlDbType.Integer)
+        {
+            Direction = ParameterDirection.Output
+        };
+         command.Parameters.Add(outParm);
+
+        command.ExecuteNonQuery();
+        return (int)outParm.Value;        }
+
+
+        //var r = this.Database.ExecuteSqlInterpolated(
+        //    "CALL \"CountPersonOlderThen\" ( {minAge} )");
+
+    }
+    public IQueryable<Person> PersonOlderThen(int minage)  => FromExpression(() => PersonOlderThen(minage));
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        
         // Fluent API
 
         modelBuilder.ApplyConfiguration(new CountryConfig());
@@ -40,5 +72,16 @@ public class ApplicationContext : DbContext
             .WithMany(c => c.People)
             //.UsingEntity(j => j.ToTable("citizenship")) // custom join table
             .UsingEntity<Citizen>();
+
+        // Заполение данными
+        modelBuilder.Entity<Person>().HasData(
+            new Person(){Id=1, Name = "Sergey", Age = 46},
+            new Person(){Id=2, Name = "Andrey", Age = 30},
+            new Person(){Id=3, Name = "Konstantin", Age = 17}
+        );
+
+        modelBuilder.HasDbFunction(() => PersonOlderThen(default));
+        
+
     }
 }
