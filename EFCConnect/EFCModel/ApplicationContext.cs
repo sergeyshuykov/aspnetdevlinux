@@ -31,24 +31,26 @@ public class ApplicationContext : DbContext
        
         using(NpgsqlConnection conn = this.Database.GetDbConnection() as NpgsqlConnection)
         {
-        conn.Open();
-        IDbCommand command = conn.CreateCommand();
-        command.CommandText = "\"CountPersonOlderThen\"";
-        command.CommandType = CommandType.StoredProcedure;
-        command.Parameters.Add(new NpgsqlParameter("@minage", minAge));
-        
-        NpgsqlParameter outParm = new NpgsqlParameter("@res", NpgsqlDbType.Integer)
-        {
-            Direction = ParameterDirection.Output
-        };
-         command.Parameters.Add(outParm);
+            conn.Open();
+            IDbCommand command = conn.CreateCommand();
+            command.CommandText = "\"CountPersonOlderThen\"";
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add(new NpgsqlParameter("@minage", minAge));
+            
+            NpgsqlParameter outParm = new NpgsqlParameter("@res", NpgsqlDbType.Integer)
+            {
+                Direction = ParameterDirection.Output
+            };
+            command.Parameters.Add(outParm);
 
-        command.ExecuteNonQuery();
-        return (int)outParm.Value;        }
+            command.ExecuteNonQuery();
+            return (int)outParm.Value;        
+        }
 
 
         //var r = this.Database.ExecuteSqlInterpolated(
-        //    "CALL \"CountPersonOlderThen\" ( {minAge} )");
+        //    $"CALL \"CountPersonOlderThen\" ( {minAge} )");
+        //this.People.FromSqlInterpolated<Person>($"")
 
     }
     public IQueryable<Person> PersonOlderThen(int minage)  => FromExpression(() => PersonOlderThen(minage));

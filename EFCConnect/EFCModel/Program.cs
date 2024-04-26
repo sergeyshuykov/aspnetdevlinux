@@ -5,6 +5,15 @@ using (ApplicationContext db = new ApplicationContext())
     db.Database.EnsureDeleted();
     db.Database.EnsureCreated();
 
+    //db.Database.ExecuteSql
+    //db.Database.ExecuteSqlInterpolated
+    //db.Database.ExecuteSqlRaw
+    //db.Database.ExecuteSqlInterpolated($"CALL my_sp({age})");
+
+    //db.People.FromSql
+    //db.People.FromSqlInterpolated
+    //db.People.FromSqlRaw
+    
     db.Database.ExecuteSqlRaw(@"
         CREATE OR REPLACE PROCEDURE ""CountPersonOlderThen""(IN minage int, OUT res int) AS
         $$

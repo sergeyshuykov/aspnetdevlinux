@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using WebMVC;
 using WebMVC.Services;
@@ -9,6 +12,19 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IHello, HelloImpl>();
 //builder.Services.AddKeyedSingleton<IHello, HelloImpl>("one");
+
+builder.Services.AddNpgsql<MyModels.ApplicationContext>
+    ( builder.Configuration.GetConnectionString("DefaultConnection"));
+
+// SCHEMA: Cookies, Bearer
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
+
+// Header Request
+// Authorizatrion : Bearer ....
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer();
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -33,9 +49,13 @@ app.UseStaticFiles(new StaticFileOptions{
         Path.Combine(builder.Environment.ContentRootPath, "MyStatic"))
 });
 
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseRouting();
 
-//app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "hello",
