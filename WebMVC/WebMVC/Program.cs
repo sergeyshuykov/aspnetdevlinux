@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
 using WebMVC;
 using WebMVC.Services;
 
@@ -22,7 +23,23 @@ builder.Services.AddNpgsql<MyModels.ApplicationContext>
 // Header Request
 // Authorizatrion : Bearer ....
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer();
+    .AddJwtBearer(
+        options => {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = MyAuthOptions.ISSUER,
+                ValidateAudience = true,
+                ValidAudience = MyAuthOptions.AUDIENCE,
+                ValidateLifetime = true,
+                IssuerSigningKey = MyAuthOptions.GetKey(),
+                ValidateIssuerSigningKey = true
+            };
+
+        }
+
+
+    );
 
 builder.Services.AddAuthorization();
 
@@ -50,11 +67,11 @@ app.UseStaticFiles(new StaticFileOptions{
 });
 
 
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 app.MapControllerRoute(
