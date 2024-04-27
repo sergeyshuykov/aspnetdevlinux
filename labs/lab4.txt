@@ -1,0 +1,7 @@
+1. В папке View/Shared сделать собственный master page (_Master.cshtml)
+В нём описать общую разметку и вставить 3 директивы 
+@RenderBody
+@RenderSection("head")
+@RenderSection("footer")
+2. Сделать пару View, использующих _Master.cshtml 
+@{Layout = "_Master"}

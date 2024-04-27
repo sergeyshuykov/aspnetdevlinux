@@ -1,0 +1,8 @@
+1. Сделать сервис реализующий следующий функционал
+ICourseDAO {
+
+	IList<Course> Courses {get; set;}
+}
+
+2. Внедрить этот сервис в CourseController, action которого
+должен вернуть View со списком курсов

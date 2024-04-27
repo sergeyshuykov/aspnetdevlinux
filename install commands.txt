@@ -1,0 +1,84 @@
+# Get OS version info
+source /etc/os-release
+
+# Download Microsoft signing key and repository
+wget https://packages.microsoft.com/config/$ID/$VERSION_ID/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+
+# Install Microsoft signing key and repository
+sudo dpkg -i packages-microsoft-prod.deb
+
+# Clean up
+rm packages-microsoft-prod.deb
+
+# Update packages
+sudo apt update
+
+# Install dotnet SDK
+sudo apt install dotnet-sdk-8.0
+sudo apt install dotnet-runtime-8.0
+sudo apt install aspnetcore-runtime-8.0
+
+# Install VS code with C# Dev Kit
+https://code.visualstudio.com/Download#
+sudo apt install ./Загрузки/code_1.88.1-1712771838_amd64.deb
+
+# Install PostgreSQL
+sudo apt install postgresql
+
+# Set password for postgres user
+sudo -u postgres psql template1
+ALTER user postgres with encrypted password 'Pa$$w0rd';
+
+sudo systemctl restart postgresql.service
+
+# Install pgAdmin
+
+# Install the public key for the repository (if not done previously):
+curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
+
+# Create the repository configuration file:
+sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+
+# Install for both desktop and web modes:
+sudo apt install pgadmin4
+
+# Install for desktop mode only:
+sudo apt install pgadmin4-desktop
+
+# Install for web mode only: 
+sudo apt install pgadmin4-web 
+
+# Configure the webserver, if you installed pgadmin4-web:
+sudo /usr/pgadmin4/bin/setup-web.sh
+
+# Install nginx
+sudo apt install nginx
+
+# Add to autoload
+sudo systemctl enable nginx
+
+# Start nginx
+sudo systemctl start nginx
+
+# Verify status
+sudo service nginx status
+
+# Verify autostart
+sudo systemctl is-enabled nginx
+
+
+# Start nginx
+sudo systemctl start nginx
+
+# Stop nginx
+sudo systemctl stop nginx
+
+# Restart nginx
+sudo systemctl restart nginx
+
+# Reload config 
+sudo systemctl reload nginx
+
+# Test config
+sudo nginx -t
+
